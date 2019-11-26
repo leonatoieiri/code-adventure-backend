@@ -32,5 +32,23 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+  },
+  // retrieves a random record from the database
+  random: async difficulty => {
+    var num = await Stage.count({ difficulty: difficulty });
+
+    var randm = Math.floor(Math.random() * num);
+
+    if (randm < 0) {
+      randm = 0;
+    }
+
+    var stage = await Stage.find({
+      where: { difficulty: difficulty },
+      skip: randm,
+      limit: 1
+    });
+
+    return stage[0];
   }
 };

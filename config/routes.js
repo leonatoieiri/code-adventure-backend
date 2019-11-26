@@ -18,9 +18,9 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  'POST /stage': {
-    action: 'stage/create'
-  }
+  'POST /stage': { action: 'stage/create' },
+  'GET /stage/:id': { action: 'stage/view' },
+  'GET /stage/random/:difficulty': { action: 'stage/random' }
 
   /***************************************************************************
    *                                                                          *
