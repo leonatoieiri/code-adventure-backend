@@ -50,5 +50,61 @@ module.exports = {
     });
 
     return stage[0];
+  },
+  executeAction: (tiles, actions, currentX, currentY) => {
+    var compiledActions = [];
+
+    if (Array.isArray(actions)) {
+      actions.forEach(action => {
+        var childResult = Stage.executeAction(
+          tiles,
+          action,
+          currentX,
+          currentY
+        );
+        currentX = childResult.x;
+        currentY = childResult.y;
+
+        compiledActions.push(childResult.compiled);
+      });
+    }
+
+    var nextX = currentX;
+    var nextY = currentY;
+
+    if (actions.name === 'walk') {
+      switch (actions.value) {
+        case 'right':
+          nextX++;
+          break;
+        case 'left':
+          nextX--;
+          break;
+        case 'up':
+          nextY--;
+          break;
+        case 'down':
+          nextY++;
+          break;
+        default:
+          compiledActions.push('InvalidWalk');
+          break;
+      }
+      if (!tiles[nextX].line[nextY]) {
+        compiledActions.push('OutOfBounds');
+      } else if (tiles[nextX].line[nextY] === 'wall') {
+        compiledActions.push('Wall');
+      } else {
+        compiledActions.push(`move(${actions.value})`);
+        currentX = nextX;
+        currentY = nextY;
+      }
+    }
+
+    return {
+      x: currentX,
+      y: currentY,
+      compiled: compiledActions
+    };
   }
 };
