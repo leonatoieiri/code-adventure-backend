@@ -51,28 +51,65 @@ module.exports = {
 
     return stage[0];
   },
-  executeAction: (tiles, actions, currentX, currentY) => {
+  executeAction: (tiles, actions, currentX, currentY, inventory = []) => {
     var compiledActions = [];
 
     if (Array.isArray(actions)) {
       actions.forEach(action => {
-        var childResult = Stage.executeAction(
+        var actionResult = Stage.executeAction(
           tiles,
           action,
           currentX,
-          currentY
+          currentY,
+          inventory
         );
-        currentX = childResult.x;
-        currentY = childResult.y;
+        currentX = actionResult.x;
+        currentY = actionResult.y;
+        inventory = actionResult.inventory;
 
-        compiledActions = compiledActions.concat(childResult.compiled);
+        compiledActions = compiledActions.concat(actionResult.compiled);
       });
     }
 
     var nextX = currentX;
     var nextY = currentY;
 
-    if (actions.name === 'walk') {
+    if (actions.name === 'if') {
+      var nextAction;
+      if (tiles[currentY].line[currentX] === actions.condition.value) {
+        nextAction = actions.actions;
+      } else {
+        nextAction = actions.elseActions;
+      }
+
+      var conditionalResult = Stage.executeAction(
+        tiles,
+        nextAction,
+        currentX,
+        currentY,
+        inventory
+      );
+      currentX = conditionalResult.x;
+      currentY = conditionalResult.y;
+      inventory = conditionalResult.inventory;
+
+      compiledActions = compiledActions.concat(conditionalResult.compiled);
+    } else if (actions.name === 'repeat') {
+      for (let index = 0; index < actions.value; index++) {
+        var iterationResult = Stage.executeAction(
+          tiles,
+          actions.actions,
+          currentX,
+          currentY,
+          inventory
+        );
+        currentX = iterationResult.x;
+        currentY = iterationResult.y;
+        inventory = iterationResult.inventory;
+
+        compiledActions = compiledActions.concat(iterationResult.compiled);
+      }
+    } else if (actions.name === 'walk') {
       switch (actions.value) {
         case 'right':
           nextX++;
@@ -90,24 +127,30 @@ module.exports = {
           compiledActions.push('InvalidWalk');
           break;
       }
-      if (!tiles[nextX].line[nextY]) {
+      if (!tiles[nextY].line[nextX]) {
         compiledActions.push('OutOfBounds');
-      } else if (tiles[nextX].line[nextY] === 'wall') {
+      } else if (tiles[nextY].line[nextX] === 'wall') {
         compiledActions.push('Wall');
       } else {
         compiledActions.push(`move(${actions.value})`);
         currentX = nextX;
         currentY = nextY;
-        if (tiles[currentX].line[currentY] === 'finish') {
+        if (tiles[currentY].line[currentX] === 'finish') {
           compiledActions.push('Goal');
         }
+      }
+    } else if (actions.name === 'store') {
+      if (tiles[currentY].line[currentX] === 'key') {
+        inventory.push(tiles[currentY].line[currentX]);
+        compiledActions.push('GotKey');
       }
     }
 
     return {
       x: currentX,
       y: currentY,
-      compiled: compiledActions
+      compiled: compiledActions,
+      inventory: inventory
     };
   }
 };
