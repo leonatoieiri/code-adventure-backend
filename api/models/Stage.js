@@ -56,23 +56,47 @@ module.exports = {
 
     if (Array.isArray(actions)) {
       actions.forEach(action => {
-        var childResult = Stage.executeAction(
+        var actionResult = Stage.executeAction(
           tiles,
           action,
           currentX,
           currentY
         );
-        currentX = childResult.x;
-        currentY = childResult.y;
+        currentX = actionResult.x;
+        currentY = actionResult.y;
 
-        compiledActions = compiledActions.concat(childResult.compiled);
+        compiledActions = compiledActions.concat(actionResult.compiled);
       });
     }
 
     var nextX = currentX;
     var nextY = currentY;
 
-    if (actions.name === 'walk') {
+    if (actions.name === 'if') {
+      if (tiles[currentY].line[currentX] === actions.condition.value) {
+        var ifActionResult = Stage.executeAction(
+          tiles,
+          actions.actions,
+          currentX,
+          currentY
+        );
+        currentX = ifActionResult.x;
+        currentY = ifActionResult.y;
+
+        compiledActions = compiledActions.concat(ifActionResult.compiled);
+      } else {
+        var elseActionResult = Stage.executeAction(
+          tiles,
+          actions.elseActions,
+          currentX,
+          currentY
+        );
+        currentX = elseActionResult.x;
+        currentY = elseActionResult.y;
+
+        compiledActions = compiledActions.concat(elseActionResult.compiled);
+      }
+    } else if (actions.name === 'walk') {
       switch (actions.value) {
         case 'right':
           nextX++;
@@ -90,30 +114,30 @@ module.exports = {
           compiledActions.push('InvalidWalk');
           break;
       }
-      if (!tiles[nextX].line[nextY]) {
+      if (!tiles[nextY].line[nextX]) {
         compiledActions.push('OutOfBounds');
-      } else if (tiles[nextX].line[nextY] === 'wall') {
+      } else if (tiles[nextY].line[nextX] === 'wall') {
         compiledActions.push('Wall');
       } else {
         compiledActions.push(`move(${actions.value})`);
         currentX = nextX;
         currentY = nextY;
-        if (tiles[currentX].line[currentY] === 'finish') {
+        if (tiles[currentY].line[currentX] === 'finish') {
           compiledActions.push('Goal');
         }
       }
     } else if (actions.name === 'repeat') {
       for (let index = 0; index < actions.value; index++) {
-        var childResult = Stage.executeAction(
+        var iterationResult = Stage.executeAction(
           tiles,
           actions.actions,
           currentX,
           currentY
         );
-        currentX = childResult.x;
-        currentY = childResult.y;
+        currentX = iterationResult.x;
+        currentY = iterationResult.y;
 
-        compiledActions = compiledActions.concat(childResult.compiled);
+        compiledActions = compiledActions.concat(iterationResult.compiled);
       }
     }
 
