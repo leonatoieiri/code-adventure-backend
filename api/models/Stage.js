@@ -51,7 +51,7 @@ module.exports = {
 
     return stage[0];
   },
-  executeAction: (tiles, actions, currentX, currentY) => {
+  executeAction: (tiles, actions, currentX, currentY, inventory = []) => {
     var compiledActions = [];
 
     if (Array.isArray(actions)) {
@@ -60,10 +60,12 @@ module.exports = {
           tiles,
           action,
           currentX,
-          currentY
+          currentY,
+          inventory
         );
         currentX = actionResult.x;
         currentY = actionResult.y;
+        inventory = actionResult.inventory;
 
         compiledActions = compiledActions.concat(actionResult.compiled);
       });
@@ -73,28 +75,39 @@ module.exports = {
     var nextY = currentY;
 
     if (actions.name === 'if') {
+      var nextAction;
       if (tiles[currentY].line[currentX] === actions.condition.value) {
-        var ifActionResult = Stage.executeAction(
+        nextAction = actions.actions;
+      } else {
+        nextAction = actions.elseActions;
+      }
+
+      var conditionalResult = Stage.executeAction(
+        tiles,
+        nextAction,
+        currentX,
+        currentY,
+        inventory
+      );
+      currentX = conditionalResult.x;
+      currentY = conditionalResult.y;
+      inventory = conditionalResult.inventory;
+
+      compiledActions = compiledActions.concat(conditionalResult.compiled);
+    } else if (actions.name === 'repeat') {
+      for (let index = 0; index < actions.value; index++) {
+        var iterationResult = Stage.executeAction(
           tiles,
           actions.actions,
           currentX,
-          currentY
+          currentY,
+          inventory
         );
-        currentX = ifActionResult.x;
-        currentY = ifActionResult.y;
+        currentX = iterationResult.x;
+        currentY = iterationResult.y;
+        inventory = iterationResult.inventory;
 
-        compiledActions = compiledActions.concat(ifActionResult.compiled);
-      } else {
-        var elseActionResult = Stage.executeAction(
-          tiles,
-          actions.elseActions,
-          currentX,
-          currentY
-        );
-        currentX = elseActionResult.x;
-        currentY = elseActionResult.y;
-
-        compiledActions = compiledActions.concat(elseActionResult.compiled);
+        compiledActions = compiledActions.concat(iterationResult.compiled);
       }
     } else if (actions.name === 'walk') {
       switch (actions.value) {
@@ -126,25 +139,18 @@ module.exports = {
           compiledActions.push('Goal');
         }
       }
-    } else if (actions.name === 'repeat') {
-      for (let index = 0; index < actions.value; index++) {
-        var iterationResult = Stage.executeAction(
-          tiles,
-          actions.actions,
-          currentX,
-          currentY
-        );
-        currentX = iterationResult.x;
-        currentY = iterationResult.y;
-
-        compiledActions = compiledActions.concat(iterationResult.compiled);
+    } else if (actions.name === 'store') {
+      if (tiles[currentY].line[currentX] === 'key') {
+        inventory.push(tiles[currentY].line[currentX]);
+        compiledActions.push('GotKey');
       }
     }
 
     return {
       x: currentX,
       y: currentY,
-      compiled: compiledActions
+      compiled: compiledActions,
+      inventory: inventory
     };
   }
 };
