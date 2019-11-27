@@ -22,8 +22,9 @@ module.exports = {
     });
     var startX = 0;
     var startY = 0;
-    stage.tiles.forEach((line, x) => {
-      line.line.forEach((tile, y) => {
+    var lines = stage.tiles[0].lines;
+    lines.forEach((line, x) => {
+      line.forEach((tile, y) => {
         if (tile === 'start') {
           startX = x;
           startY = y;
@@ -31,10 +32,10 @@ module.exports = {
       });
     });
     var compiledActions = Stage.executeAction(
-      stage.tiles,
+      lines,
       inputs.actions,
-      startX,
-      startY
+      startY,
+      startX
     );
 
     return exits.success(compiledActions);

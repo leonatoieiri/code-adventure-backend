@@ -76,7 +76,7 @@ module.exports = {
       switch (actions.name) {
         case 'if':
           var nextAction;
-          if (tiles[currentY].line[currentX] === actions.condition.value) {
+          if (tiles[currentY][currentX] === actions.condition.value) {
             nextAction = actions.actions;
           } else {
             nextAction = actions.elseActions;
@@ -131,25 +131,25 @@ module.exports = {
               compiledActions.push('InvalidWalk');
               break;
           }
-          if (!tiles[nextY].line[nextX]) {
+          if (!tiles[nextY] || !tiles[nextY][nextX]) {
             compiledActions.push('OutOfBounds');
-          } else if (tiles[nextY].line[nextX] === 'wall') {
+          } else if (tiles[nextY][nextX] === 'wall') {
             compiledActions.push('Wall');
-          } else if (tiles[nextY].line[nextX] === 'door') {
+          } else if (tiles[nextY][nextX] === 'door') {
             compiledActions.push('Door');
           } else {
             compiledActions.push(`move(${actions.value})`);
             currentX = nextX;
             currentY = nextY;
-            if (tiles[currentY].line[currentX] === 'finish') {
+            if (tiles[currentY][currentX] === 'finish') {
               compiledActions.push('Goal');
             }
           }
           break;
 
         case 'store':
-          if (tiles[currentY].line[currentX] === 'key') {
-            inventory.push(tiles[currentY].line[currentX]);
+          if (tiles[currentY][currentX] === 'key') {
+            inventory.push(tiles[currentY][currentX]);
             compiledActions.push('GotKey');
           }
           break;
@@ -172,7 +172,7 @@ module.exports = {
               compiledActions.push('InvalidOpen');
               break;
           }
-          if (tiles[nextY].line[nextX] === 'door') {
+          if (tiles[nextY][nextX] === 'door') {
             var index = inventory.findIndex(element => {
               return element === 'key';
             });
