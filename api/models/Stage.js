@@ -102,6 +102,19 @@ module.exports = {
           compiledActions.push('Goal');
         }
       }
+    } else if (actions.name === 'repeat') {
+      for (let index = 0; index < actions.value; index++) {
+        var childResult = Stage.executeAction(
+          tiles,
+          actions.actions,
+          currentX,
+          currentY
+        );
+        currentX = childResult.x;
+        currentY = childResult.y;
+
+        compiledActions = compiledActions.concat(childResult.compiled);
+      }
     }
 
     return {
