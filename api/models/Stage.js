@@ -65,7 +65,7 @@ module.exports = {
         currentX = childResult.x;
         currentY = childResult.y;
 
-        compiledActions.push(childResult.compiled);
+        compiledActions = compiledActions.concat(childResult.compiled);
       });
     }
 
@@ -98,6 +98,9 @@ module.exports = {
         compiledActions.push(`move(${actions.value})`);
         currentX = nextX;
         currentY = nextY;
+        if (tiles[currentX].line[currentY] === 'finish') {
+          compiledActions.push('Goal');
+        }
       }
     }
 
