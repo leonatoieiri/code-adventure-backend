@@ -14,7 +14,7 @@ module.exports = {
 
   fn: async function(inputs, exits) {
     var stage = await Stage.findOne({
-      id: inputs.id
+      level: inputs.id
     });
 
     return exits.success(stage);

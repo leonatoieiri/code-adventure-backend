@@ -30,154 +30,90 @@ module.exports.bootstrap = async function() {
   //Create Maps by default 1
 
   await Stage.create({
-    "name": "Primeiro Mapa",
+    "name": "Java",
 	  "level": 1,
 	  "difficulty": "easy",
 	  "tiles":[
         {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-          {
-        "line": ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]
-      },
-          {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "start", "free", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "finish", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "chest", "free", "free", "free", "free", "free"]
-      }
+          "lines":[
+            ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+            ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"],
+            ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+            ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"],
+            ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+            ["free", "free", "start", "free", "free", "free", "free", "free", "free", "free"],
+            ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+            ["free", "free", "free", "free", "free", "free", "free", "free", "door", "wall"],
+            ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "finish", "wall"],
+            ["free", "free", "free", "free", "key", "free", "free", "free", "wall", "wall"]
+          ] 
+        },
     ]
   });
 
   await Stage.create({
-    "name": "Primeiro Mapa",
+    "name": "PHP",
 	  "level": 2,
 	  "difficulty": "easy",
 	  "tiles":[
         {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"]
+        "lines": [
+          ["free", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"],
+          ["free", "start", "free", "free", "free", "wall", "wall", "wall", "free", "free"],
+          ["free", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"],
+          ["free", "free", "free", "wall", "free", "free", "free", "key", "free", "free"],
+          ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+          ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"],
+          ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "wall", "wall"],
+          ["free", "wall", "wall", "wall", "door", "free", "free", "free", "free", "free"],
+          ["free", "wall", "free", "wall", "finish", "wall", "free", "wall", "free", "wall"],
+          ["free", "free", "free", "wall", "wall", "free", "free", "free", "free", "free"]
+        ]
       },
-          {
-        "line": ["free", "start", "free", "free", "free", "wall", "wall", "wall", "free", "free"]
-      },
-          {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "wall", "free", "free", "free", "chest", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "wall", "wall"]
-      },
-      {
-        "line": ["free", "wall", "wall", "wall", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "finish", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]
-      }
     ]
   });
 
   await Stage.create({
-    "name": "Primeiro Mapa",
+    "name": "Ruby",
 	  "level": 3,
 	  "difficulty": "normal",
 	  "tiles":[
         {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "start", "free", "wall"]
+        "lines":[
+          ["free", "wall", "free", "wall", "free", "wall", "free", "start", "free", "wall"],
+          ["free", "free", "free", "free", "free", "wall", "wall", "wall", "free", "free"],
+          ["wall", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"],
+          ["free", "free", "free", "wall", "free", "free", "free", "free", "free", "free"],
+          ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+          ["wall", "free", "door", "free", "free", "wall", "free", "free", "free", "free"],
+          ["free", "wall", "finish", "wall", "free", "wall", "free", "wall", "wall", "wall"],
+          ["free", "wall", "wall", "wall", "free", "free", "free", "free", "free", "free"],
+          ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+          ["free", "free", "free", "free", "free", "free", "key", "free", "free", "free"]
+        ] 
       },
-          {
-        "line": ["free", "free", "free", "free", "free", "wall", "wall", "wall", "free", "free"]
-      },
-          {
-        "line": ["wall", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "wall", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["wall", "free", "free", "free", "free", "wall", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "finish", "wall", "free", "wall", "free", "wall", "wall", "wall"]
-      },
-      {
-        "line": ["free", "wall", "wall", "wall", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "free", "chest", "free", "free", "free"]
-      }
     ]
   });
 
   await Stage.create({
-    "name": "Primeiro Mapa",
+    "name": "Javascript",
 	  "level": 4,
 	  "difficulty": "hard",
 	  "tiles":[
         {
-        "line": ["start", "wall", "free", "wall", "free", "free", "free", "free", "free", "wall"]
+        "lines":[
+          ["start", "wall", "free", "wall", "wall", "door", "free", "free", "free", "wall"],
+          ["free", "free", "free", "free", "wall", "finish", "wall", "wall", "free", "free"],
+          ["wall", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"],
+          ["free", "free", "free", "wall", "free", "free", "free", "wall", "free", "free"],
+          ["free", "wall", "wall", "wall", "free", "wall", "free", "wall", "free", "wall"],
+          ["free", "free", "free", "free", "free", "wall", "free", "free", "free", "free"],
+          ["wall", "wall", "free", "wall", "free", "wall", "free", "wall", "wall", "wall"],
+          ["free", "wall", "free", "wall", "free", "free", "free", "free", "free", "free"],
+          ["free", "free", "free", "wall", "free", "wall", "free", "wall", "free", "wall"],
+          ["free", "wall", "free", "free", "free", "wall", "free", "free", "key", "free"]
+        ] 
       },
-          {
-        "line": ["free", "free", "free", "free", "free", "finish", "wall", "wall", "free", "free"]
-      },
-          {
-        "line": ["wall", "wall", "free", "wall", "free", "wall", "free", "free", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "wall", "free", "free", "free", "wall", "free", "free"]
-      },
-      {
-        "line": ["free", "wall", "wall", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "free", "free", "free", "free", "wall", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["wall", "wall", "free", "wall", "free", "wall", "free", "wall", "wall", "wall"]
-      },
-      {
-        "line": ["free", "wall", "free", "wall", "free", "free", "free", "free", "free", "free"]
-      },
-      {
-        "line": ["free", "free", "free", "wall", "free", "wall", "free", "wall", "free", "wall"]
-      },
-      {
-        "line": ["free", "wall", "free", "free", "free", "wall", "free", "free", "chest", "free"]
-      }
     ]
   });
 
